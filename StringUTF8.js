@@ -173,186 +173,186 @@ function StringUTF8FromString( str )
 
 function StringUTF8ToString( utf8 )
 {
-	var byteCount,
-	    byteIndex,
+    var byteCount,
+        byteIndex,
         index,
         len,
         value,
         codePoints,
         continuationByte,
-		byte1,
-		byte2,
-		byte3,
-		byte4,
-		codePoint,
+        byte1,
+        byte2,
+        byte3,
+        byte4,
+        codePoint,
         str;
 
 
-	codePoints = [];
+    codePoints = [];
     byteCount = utf8.length;
-	byteIndex = 0;
+    byteIndex = 0;
 
-	while( true )
+    while( true )
     {
-		if( byteIndex > byteCount )
+        if( byteIndex > byteCount )
         {
-			return ""; // EXCEPTION
-		}
+            return ""; // EXCEPTION
+        }
 
-		if( byteIndex === byteCount )
+        if( byteIndex === byteCount )
         {
-			break;
-		}
+            break;
+        }
 
-		// Read first byte
+        // Read first byte
 
-		byte1 = utf8[byteIndex] & 0xFF;
-		byteIndex++;
+        byte1 = utf8[byteIndex] & 0xFF;
+        byteIndex++;
 
-		if( ( byte1 & 0x80 ) == 0 ) // 1-byte sequence ( no continuation bytes )
+        if( ( byte1 & 0x80 ) == 0 ) // 1-byte sequence ( no continuation bytes )
         {
-			codePoint = byte1;
-		}
-		else if( ( byte1 & 0xE0 ) == 0xC0 ) // 2-byte sequence
+            codePoint = byte1;
+        }
+        else if( ( byte1 & 0xE0 ) == 0xC0 ) // 2-byte sequence
         {
-    		if( byteIndex >= byteCount )
+            if( byteIndex >= byteCount )
             {
-    		    return ""; // Invalid byte index
-    		}
+                return ""; // Invalid byte index
+            }
 
             continuationByte = utf8[ byteIndex ] & 0xFF;
             byteIndex++;
-    		if( ( continuationByte & 0xC0 ) == 0x80 )
+            if( ( continuationByte & 0xC0 ) == 0x80 )
             {
-    			continuationByte = continuationByte & 0x3F;
-    		}
+                continuationByte = continuationByte & 0x3F;
+            }
             else
             {
                 return ""; // Invalid continuation byte
             }
-			byte2 = continuationByte;
+            byte2 = continuationByte;
 
 
-			codePoint = ( ( byte1 & 0x1F ) << 6 ) | byte2;
-			if( codePoint >= 0x80 )
+            codePoint = ( ( byte1 & 0x1F ) << 6 ) | byte2;
+            if( codePoint >= 0x80 )
             {
-				// ok
-			}
+                // ok
+            }
             else
             {
-				return ""; //Invalid continuation byte
-			}
-		}
+                return ""; //Invalid continuation byte
+            }
+        }
         else if( ( byte1 & 0xF0 ) == 0xE0 ) // 3-byte sequence ( may include unpaired surrogates )
         {
             continuationByte = utf8[ byteIndex ] & 0xFF;
             byteIndex++;
-    		if( ( continuationByte & 0xC0 ) == 0x80 )
+            if( ( continuationByte & 0xC0 ) == 0x80 )
             {
-    			continuationByte = continuationByte & 0x3F;
-    		}
+                continuationByte = continuationByte & 0x3F;
+            }
             else
             {
                 return ""; // Invalid continuation byte
             }
-			byte2 = continuationByte;
+            byte2 = continuationByte;
 
             continuationByte = utf8[ byteIndex ] & 0xFF;
             byteIndex++;
-    		if( ( continuationByte & 0xC0 ) == 0x80 )
+            if( ( continuationByte & 0xC0 ) == 0x80 )
             {
-    			continuationByte = continuationByte & 0x3F;
-    		}
+                continuationByte = continuationByte & 0x3F;
+            }
             else
             {
                 return ""; // Invalid continuation byte
             }
-			byte3 = continuationByte;
+            byte3 = continuationByte;
 
             codePoint = ( ( byte1 & 0x0F ) << 12 ) | ( byte2 << 6 ) | byte3;
 
-			if( codePoint >= 0x0800 )
+            if( codePoint >= 0x0800 )
             {
-				if(codePoint >= 0xD800 && codePoint <= 0xDFFF )
+                if(codePoint >= 0xD800 && codePoint <= 0xDFFF )
                 {
                     return ""; // Lone surrogate is not scalar value
-				}
-			}
+                }
+            }
             else
             {
-				return ""; // Invalid continuation byte
-			}
-		}
+                return ""; // Invalid continuation byte
+            }
+        }
         else if( ( byte1 & 0xF8 ) == 0xF0 ) // 4-byte sequence
         {
             continuationByte = utf8[ byteIndex ] & 0xFF;
             byteIndex++;
-    		if( ( continuationByte & 0xC0 ) == 0x80 )
+            if( ( continuationByte & 0xC0 ) == 0x80 )
             {
-    			continuationByte = continuationByte & 0x3F;
-    		}
+                continuationByte = continuationByte & 0x3F;
+            }
             else
             {
                 return ""; // Invalid continuation byte
             }
-			byte2 = continuationByte;
+            byte2 = continuationByte;
 
             continuationByte = utf8[ byteIndex ] & 0xFF;
             byteIndex++;
-    		if( ( continuationByte & 0xC0 ) == 0x80 )
+            if( ( continuationByte & 0xC0 ) == 0x80 )
             {
-    			continuationByte = continuationByte & 0x3F;
-    		}
+                continuationByte = continuationByte & 0x3F;
+            }
             else
             {
                 return ""; // Invalid continuation byte
             }
-			byte3 = continuationByte;
+            byte3 = continuationByte;
 
             continuationByte = utf8[ byteIndex ] & 0xFF;
             byteIndex++;
-    		if( ( continuationByte & 0xC0 ) == 0x80 )
+            if( ( continuationByte & 0xC0 ) == 0x80 )
             {
-    			continuationByte = continuationByte & 0x3F;
-    		}
+                continuationByte = continuationByte & 0x3F;
+            }
             else
             {
                 return ""; // Invalid continuation byte
             }
-			byte4 = continuationByte;
+            byte4 = continuationByte;
 
-			codePoint = ( ( byte1 & 0x07 ) << 0x12 ) | ( byte2 << 0x0C ) | ( byte3 << 0x06 ) | byte4;
-			if( codePoint >= 0x010000 && codePoint <= 0x10FFFF )
+            codePoint = ( ( byte1 & 0x07 ) << 0x12 ) | ( byte2 << 0x0C ) | ( byte3 << 0x06 ) | byte4;
+            if( codePoint >= 0x010000 && codePoint <= 0x10FFFF )
             {
-				// ok
-			}
+                // ok
+            }
             else
             {
                 return ""; // EXCEPTION
             }
-		}
+        }
 
-		codePoints.push( codePoint );
-	}
+        codePoints.push( codePoint );
+    }
 
 
     // encode codePoints into UCS2
 
     str = '';
-	len = codePoints.length;
-	for( index = 0; index < len; index++ )
+    len = codePoints.length;
+    for( index = 0; index < len; index++ )
     {
-		value = codePoints[ index ];
-		if( value > 0xFFFF )
+        value = codePoints[ index ];
+        if( value > 0xFFFF )
         {
-			value -= 0x10000;
-			str += String.fromCharCode( value >>> 10 & 0x3FF | 0xD800 );
-			value = 0xDC00 | value & 0x3FF;
-		}
-		str += String.fromCharCode(value);
-	}
+            value -= 0x10000;
+            str += String.fromCharCode( value >>> 10 & 0x3FF | 0xD800 );
+            value = 0xDC00 | value & 0x3FF;
+        }
+        str += String.fromCharCode(value);
+    }
 
-	return str;
+    return str;
 }
 
 
