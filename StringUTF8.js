@@ -369,6 +369,22 @@ function StringUTF8ToString( utf8 )
 
 
 //
+// Return a copy of the UTF-8 string
+//
+
+
+function StringUTF8Copy( str )
+{
+    var out;
+
+    out = str.slice();
+
+    return out;
+}
+
+
+
+//
 // Return a hex values string representing the bytes of a UTF-8 encoded string
 //
 
