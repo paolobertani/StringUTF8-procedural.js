@@ -85,9 +85,11 @@ function StringUTF8FromString( str )
         index,
         codePoint,
         utf8,
-         counter,
+        counter,
         value,
         extra;
+
+    str = '' + str;
 
 
     // translate UCS2 into codePoints
@@ -566,7 +568,7 @@ function StringUTF8Substring( str, first, count, idx )
 
 
 //
-// Get index of UTF8 substring in UTF8 string; return -1 if substring is not found
+// Get index of UTF-8/UCS2 substring in UTF8 string; return -1 if substring is not found
 //
 
 function StringUTF8GetIndexOfSubstring( str, sub, idx )
@@ -577,6 +579,10 @@ function StringUTF8GetIndexOfSubstring( str, sub, idx )
         strsize,
         subsize,
         idxlen;
+
+    if( typeof( sub ) === 'number' ) sub = '' + sub;
+
+    if( typeof( sub ) === 'string' ) sub = StringUTF8FromString( sub );
 
     strsize = str.length;
     subsize = sub.length;
