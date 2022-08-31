@@ -37,7 +37,7 @@ The UTF-8 string is returned in the form of an array of integers. Each item of t
 
 &nbsp;
 
--
+--
 
 &nbsp;
 
@@ -47,7 +47,7 @@ Takes (an array of integers representing) a UTF-8 string and converts it back to
 
 &nbsp;
 
--
+--
 
 &nbsp;
 
@@ -57,7 +57,7 @@ Returns a copy of the passed UTF-8 string.
 
 &nbsp;
 
--
+--
 
 &nbsp;
 
@@ -97,7 +97,7 @@ gives
 
 &nbsp;
 
--
+--
 
 &nbsp;
 
@@ -109,7 +109,7 @@ If the UTF-8 string is malformed or the byte index `byte_idx` passed does not co
 
 &nbsp;
 
--
+--
 
 &nbsp;
 
@@ -127,7 +127,7 @@ If the same UTF-8 string is used multiple times you may consider to build its in
 
 &nbsp;
 
--
+--
 
 &nbsp;
 
@@ -143,7 +143,7 @@ To get the number of bytes simply evaluate the length of `utf8` array: `size = u
 
 &nbsp;
 
--
+--
 
 &nbsp;
 
@@ -155,7 +155,7 @@ Returns the size in bytes of the character at the passed `chr_idx` position.
 
 &nbsp;
 
--
+--
 
 &nbsp;
 
@@ -171,7 +171,7 @@ The function conforms to the convention used by PHP's `substr()`: `first` can be
 
 &nbsp;
 
--
+--
 
 &nbsp;
 
@@ -183,7 +183,7 @@ Returns the character-index (position) of the passed substring `substr`; `-1` is
 
 &nbsp;
 
--
+--
 
 &nbsp;
 
@@ -193,7 +193,7 @@ Returns the UTF-8 resulting of the concatenation of the parameters (UTF-8 string
 
 &nbsp;
 
--
+--
 
 &nbsp;
 
@@ -203,7 +203,7 @@ Returns a UTF-8 string with all alphabetic characters converted to uppercase.
 
 &nbsp;
 
--
+--
 
 &nbsp;
 
@@ -213,7 +213,7 @@ Returns a UTF-8 string with all alphabetic characters converted to lowercase.
 
 &nbsp;
 
--
+--
 
 &nbsp;
 
