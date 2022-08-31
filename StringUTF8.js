@@ -635,6 +635,132 @@ function StringUTF8GetIndexOfSubstring( str, sub, idx )
 
 
 //
+// Trim string
+//
+
+function StringUTF8Trim( str, chh, idx )
+{
+    var chr,
+        cdx,
+        chrl,
+        strl,
+        start,
+        end,
+        count,
+        halt,
+        i,
+        j;
+
+
+    if( typeof( chh ) === 'undefined' ) chh = "\n\r\t ";
+    if( typeof( chh ) === 'number'    ) chh = "" + chh;
+    if( typeof( chh ) === 'string'    ) chh = StringUTF8FromString( chh );
+    if( typeof( idx ) === 'undefined' ) idx = StringUTF8GetCharactersIndex( str );
+    cdx = StringUTF8GetCharactersIndex( chh );
+    chrl = StringUTF8GetLength( chh, cdx );
+    if( chrl === 0 ) return StringUTF8Copy( str );
+    chr = [];
+    for( i = 0; i < chrl; i++ )
+    {
+        chr.push( StringUTF8Substring( chh, i, 1, cdx ) );
+    }
+    strl = StringUTF8GetLength( str, idx );
+    start = 0;
+    for( i = 0; i < strl; i++ )
+    {
+        halt = true;
+        for( j = 0; j < chrl; j++ )
+        {
+            if( StringUTF8Compare( chr[j], StringUTF8Substring( str, i, 1, idx ) ) )
+            {
+                start++;
+                halt = false;
+                break;
+            }
+        }
+        if( halt ) break;
+    }
+    end = strl - 1;
+    for( i = strl - 1; i >= 0; i-- )
+    {
+        halt = true;
+        for( j = 0; j < chrl; j++ )
+        {
+            if( StringUTF8Compare( chr[j], StringUTF8Substring( str, i, 1, idx ) ) )
+            {
+                end--;
+                halt = false;
+                break;
+            }
+        }
+        if( halt ) break;
+    }
+    count = end - start + 1;
+    if( count < 1 ) return StringUTF8FromString( "" );
+    return StringUTF8Substring( str, start, count, idx );
+}
+
+
+
+//
+// Replace string in string
+//
+
+function StringUTF8Replace( str, fnd, rpl, idx )
+{
+    var len,
+        fnl,
+        out,
+        i;
+
+    if( typeof( fnd ) === 'number'    ) fnd = "" + fnd;
+    if( typeof( fnd ) === 'string'    ) fnd = StringUTF8FromString( fnd );
+    if( typeof( rpl ) === 'number'    ) rpl = "" + rpl;
+    if( typeof( rpl ) === 'string'    ) rpl = StringUTF8FromString( rpl );
+    if( typeof( idx ) === 'undefined' ) idx = StringUTF8GetCharactersIndex( str );
+    if( fnd.length === 0 || str.length === 0 ) return StringUTF8Copy( str );
+    len = StringUTF8GetLength( str, idx );
+    fnl = StringUTF8GetLength( fnd );
+    out = [];
+    len -= fnl;
+    i = 0;
+    while( i < len )
+    {
+        if( StringUTF8Compare( StringUTF8Substring( str, i, fnl, idx ), fnd ) )
+        {
+            out = StringUTF8Concat( out, rpl );
+            i += fnl;
+        }
+        else
+        {
+            out = StringUTF8Concat( out, StringUTF8Substring( str, i, 1, idx ) );
+            i++;
+        }
+    }
+    out = StringUTF8Concat( out, StringUTF8Substring( str, i, fnl, idx ) );
+    return out;
+}
+
+
+
+//
+// Compare strings
+//
+
+function StringUTF8Compare( str1, str2 )
+{
+    if( str1.length !== str2.length ) return false;
+    n = str1.length;
+    for( i = 0; i < n; i++ )
+    {
+        if( str1[ i ] !== str2[ i ] ) return false;
+    }
+    return true;
+}
+
+
+
+//
 // Join strings
 //
 
