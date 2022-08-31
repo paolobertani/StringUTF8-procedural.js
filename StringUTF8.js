@@ -394,7 +394,7 @@ function StringUTF8ToHexString( s, prefix /* optional, default: '' */ )
 {
     var i,l,o,v;
 
-    if( typeof( prefix ) === 'undefined' ) prefix = ''; // eventually may be `\x` or `%`
+    if( typeof( prefix ) === 'undefined' ) prefix = ''; // eventually may be `\\x` or `%`
 
     l = s.length;
     o = '';
