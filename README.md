@@ -1,4 +1,4 @@
-## StringUTF8 (procedural style)
+# StringUTF8 (procedural style)
 
 &nbsp;
 
@@ -9,7 +9,7 @@
 
 &nbsp;
 
-Two functions to convert UCS2 JavaScript strings to UTF-8 encoded strings and back. Plus a set of function to work with UTF-8 encoded strings.
+Two functions to convert UCS2 JavaScript strings to UTF-8 encoded strings and back, plus a set of function to work with UTF-8 encoded strings.
 
 Avoid the limits and pitfalls of JavaScript native strings.
 
@@ -29,37 +29,49 @@ Avoid the limits and pitfalls of JavaScript native strings.
 
 &nbsp;
 
+**StringUTF8FromString**
+
 `utf8 = StringUTF8FromString( str )`
 
-Takes a JavaScript string and converts it into a UTF-8 encoded string.
+Returns a UTF-8 encoded string corresponding to the JavaScript string passed.
 
-The UTF-8 string is returned in the form of an array of integers. Each item of the array represents a single byte of the string.
+**Note:**
+
+The UTF-8 string is returned in the form of an **array of integers** where each item of the array represents a single byte of the string.
+
+The functions below never alter UTF-8 string(s) passed as parameter(s); When a UTF-8 string is the return value it is always a new array (never a reference to a existing one).
+
+As UTF-8 strings are arrays they cannot be concatenated using the plus `+` operator, use `StringUTF8Concat` instead (below).
+
+For the same reason they cannot by copied with an assignment `utf8_2 = utf8` that will result in creating a **reference** to the original string/array. To make a copy use `StringUTF8Copy` (below).
+
+
+
+## &nbsp;
 
 &nbsp;
 
---
-
-&nbsp;
+**StringUTF8ToString**
 
 `str = StringUTF8ToString( utf8 )`
 
-Takes (an array of integers representing) a UTF-8 string and converts it back to a JavaScript string.
+Takes a UTF-8 string and converts it back to a JavaScript string.
+
+## &nbsp;
 
 &nbsp;
 
---
-
-&nbsp;
+**StringUTF8Copy**
 
 `copy = StringUTF8Copy( utf8 )`
 
 Returns a copy of the passed UTF-8 string.
 
-&nbsp;
-
---
+## &nbsp;
 
 &nbsp;
+
+**StringUTF8ToHexString**
 
 `hex = StringUTF8ToHexString( utf8 )`
 
@@ -95,69 +107,69 @@ gives
 
 `"\uc2\ua9"`
 
-&nbsp;
-
---
+## &nbsp;
 
 &nbsp;
 
-`size = StringUTF8GetCharacterSizeAtByteIndex( utf8, byte_idx )`
-
-Returns the size in bytes of the UTF-8 encoded character at the given byte-index.
-
-If the UTF-8 string is malformed or the byte index `byte_idx` passed does not corrispond to the first byte of a multi-byte character sequence zero `0` is returned.
-
-&nbsp;
-
---
-
-&nbsp;
+**StringUTF8GetCharactersIndex**
 
 `index = StringUTF8GetCharactersIndex( utf8 )`
 
 Returns an array with the indexes of the first byte of every character in the UTF-8 string passed.
 
-Most of UTF-8 string manipulation/inpection algorithms require that is known the byte-index of every character.
+**Note:**
 
-The following functions that need that index do built it.
+Most of the functions that operate on UTF-8 strings require need to know the byte-index of every character (in other words they need the array returned by `StringUTF8GetCharactersIndex`)
 
-Those functions accept as optional parameter the UTF-8 string index avoiding the need of building it.
+Those functions accept as optional parameter the **UTF-8 string index** avoiding the need of building it.
 
-If the same UTF-8 string is used multiple times you may consider to build its index with `StringUTF8GetCharactersIndex()` and pass it to subsequent `StringUTF8...` function calls eliminating the need of rebuilding the same index multiple times and thus improving performances.
+If the same UTF-8 string is used multiple times you may consider to build its index with `StringUTF8GetCharactersIndex` and pass the index to subsequent `StringUTF8...` function calls eliminating the need of rebuilding the same index multiple times and thus improving performance.
 
-&nbsp;
-
---
+## &nbsp;
 
 &nbsp;
+
+**StringUTF8GetLength**
 
 `len = StringUTF8GetLength( ut8 )`
 
 `len = StringUTF8GetLength( ut8, index )`
 
-Returns the number of characters of the passed string.
+To get the number of bytes (instead of characters) simply evaluate the length of `utf8` array: `size = utf8.length`
 
-Unless the string contains only ASCII characters the returned value differs from the number of bytes the string is composed of.
+Characters count matches bytes count on strings composed solely by ASCII characters.
 
-To get the number of bytes simply evaluate the length of `utf8` array: `size = utf8.length`
+Characters above the ASCII range do require from 2 to 4 bytes when encoded to UTF-8.
 
-&nbsp;
-
---
+## &nbsp;
 
 &nbsp;
+
+**StringUTF8GetCharacterSizeAtIndex**
 
 `size = StringUTF8GetCharacterSizeAtIndex( utf8, chr_idx )`
  
 `size = StringUTF8GetCharacterSizeAtIndex( utf8, chr_idx, index )`
 
-Returns the size in bytes of the character at the passed `chr_idx` position.
+Returns the size in bytes of the character at position `chr_idx` (first character is located at position zero `0`).
+
+## &nbsp;
 
 &nbsp;
 
---
+**StringUTF8GetCharacterSizeAtByteIndex**
+
+`size = StringUTF8GetCharacterSizeAtByteIndex( utf8, byte_idx )`
+
+Returns the size in bytes of the UTF-8 encoded character at the given **byte-index** (first byte is located at byte index zero `0`).
+
+If the UTF-8 string is malformed or the byte index `byte_idx` passed does not correspond to the first byte of a multi-byte character sequence then zero `0` is returned.
+
+## &nbsp;
 
 &nbsp;
+
+**StringUTF8Substring**
 
 `utf8_sub = StringUTF8Substring( utf8, first, count )`
 
@@ -169,11 +181,11 @@ Returns the substring starting from the character position `first` and counting 
 
 The function conforms to the convention used by PHP's `substr()`: `first` can be negative meaning "starting position is *n* character(s) before the end of the string"; `count` can be negative meaning "take all the characters up to the end of the string minus *n*"
 
-&nbsp;
-
---
+## &nbsp;
 
 &nbsp;
+
+**StringUTF8GetIndexOfSubstring**
 
 `chr_idx = StringUTF8GetIndexOfSubstring( utf8, substr )`
 
@@ -181,39 +193,37 @@ The function conforms to the convention used by PHP's `substr()`: `first` can be
 
 Returns the character-index (position) of the passed substring `substr`; `-1` is returned if the substring is not found. `substr` can be a UTF-8 string, a string or a number: the function converts it to UTF-8 internally.
 
-&nbsp;
-
---
+## &nbsp;
 
 &nbsp;
+
+**StringUTF8Concat**
 
 `utf8 = StringUTF8Concat( str1, str2, str3... )`
 
-Returns the UTF-8 resulting of the concatenation of the parameters (UTF-8 strings or strings) passed.
+Returns the UTF-8 string resulting of the concatenation of the parameters (UTF-8 strings or strings) passed.
+
+## &nbsp;
 
 &nbsp;
 
---
-
-&nbsp;
+**StringUTF8ToUppercase**
 
 `utf8_uc = StringUTF8ToUppercase( utf8 )`
 
 Returns a UTF-8 string with all alphabetic characters converted to uppercase.
 
-&nbsp;
-
---
+## &nbsp;
 
 &nbsp;
+
+**StringUTF8ToLowercase**
 
 `utf8_lc = StringUTF8ToLowercase( utf8 )`
   
 Returns a UTF-8 string with all alphabetic characters converted to lowercase.
 
-&nbsp;
-
---
+## &nbsp;
 
 &nbsp;
 
@@ -227,9 +237,7 @@ Returns a UTF-8 string with all alphabetic characters converted to lowercase.
 ## FreeBSD 2-clause license
 
 
-FreeBSD 2-clause license
-
-Copyright (c) 2022, Paolo Bertani - Kalei S.r.l.
+Copyright © 2022, Paolo Bertani - Kalei S.r.l.
 
 All rights reserved.
 
