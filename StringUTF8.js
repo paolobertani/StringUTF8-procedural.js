@@ -198,7 +198,7 @@ function StringUTF8ToString( utf8 )
     {
         if( byteIndex > byteCount )
         {
-            return ""; // EXCEPTION
+            return ''; // EXCEPTION
         }
 
         if( byteIndex === byteCount )
@@ -219,7 +219,7 @@ function StringUTF8ToString( utf8 )
         {
             if( byteIndex >= byteCount )
             {
-                return ""; // Invalid byte index
+                return ''; // Invalid byte index
             }
 
             continuationByte = utf8[ byteIndex ] & 0xFF;
@@ -230,7 +230,7 @@ function StringUTF8ToString( utf8 )
             }
             else
             {
-                return ""; // Invalid continuation byte
+                return ''; // Invalid continuation byte
             }
             byte2 = continuationByte;
 
@@ -242,7 +242,7 @@ function StringUTF8ToString( utf8 )
             }
             else
             {
-                return ""; //Invalid continuation byte
+                return ''; //Invalid continuation byte
             }
         }
         else if( ( byte1 & 0xF0 ) == 0xE0 ) // 3-byte sequence ( may include unpaired surrogates )
@@ -255,7 +255,7 @@ function StringUTF8ToString( utf8 )
             }
             else
             {
-                return ""; // Invalid continuation byte
+                return ''; // Invalid continuation byte
             }
             byte2 = continuationByte;
 
@@ -267,7 +267,7 @@ function StringUTF8ToString( utf8 )
             }
             else
             {
-                return ""; // Invalid continuation byte
+                return ''; // Invalid continuation byte
             }
             byte3 = continuationByte;
 
@@ -277,12 +277,12 @@ function StringUTF8ToString( utf8 )
             {
                 if(codePoint >= 0xD800 && codePoint <= 0xDFFF )
                 {
-                    return ""; // Lone surrogate is not scalar value
+                    return ''; // Lone surrogate is not scalar value
                 }
             }
             else
             {
-                return ""; // Invalid continuation byte
+                return ''; // Invalid continuation byte
             }
         }
         else if( ( byte1 & 0xF8 ) == 0xF0 ) // 4-byte sequence
@@ -295,7 +295,7 @@ function StringUTF8ToString( utf8 )
             }
             else
             {
-                return ""; // Invalid continuation byte
+                return ''; // Invalid continuation byte
             }
             byte2 = continuationByte;
 
@@ -307,7 +307,7 @@ function StringUTF8ToString( utf8 )
             }
             else
             {
-                return ""; // Invalid continuation byte
+                return ''; // Invalid continuation byte
             }
             byte3 = continuationByte;
 
@@ -319,7 +319,7 @@ function StringUTF8ToString( utf8 )
             }
             else
             {
-                return ""; // Invalid continuation byte
+                return ''; // Invalid continuation byte
             }
             byte4 = continuationByte;
 
@@ -330,7 +330,7 @@ function StringUTF8ToString( utf8 )
             }
             else
             {
-                return ""; // EXCEPTION
+                return ''; // EXCEPTION
             }
         }
 
@@ -404,7 +404,7 @@ function StringUTF8ToHexString( s, prefix /* optional, default: '' */ )
         v = s[ i ];
         if( v > 0xFF )
         {
-            return ""; // string is not UTF-8 encoded
+            return ''; // string is not UTF-8 encoded
         }
         o += prefix + v.toString( 16 );
     }
@@ -652,8 +652,8 @@ function StringUTF8Trim( str, chh, idx )
         j;
 
 
-    if( typeof( chh ) === 'undefined' ) chh = "\n\r\t ";
-    if( typeof( chh ) === 'number'    ) chh = "" + chh;
+    if( typeof( chh ) === 'undefined' ) chh = '\n\r\t ';
+    if( typeof( chh ) === 'number'    ) chh = '' + chh;
     if( typeof( chh ) === 'string'    ) chh = StringUTF8FromString( chh );
     if( typeof( idx ) === 'undefined' ) idx = StringUTF8GetCharactersIndex( str );
     cdx = StringUTF8GetCharactersIndex( chh );
@@ -696,7 +696,7 @@ function StringUTF8Trim( str, chh, idx )
         if( halt ) break;
     }
     count = end - start + 1;
-    if( count < 1 ) return StringUTF8FromString( "" );
+    if( count < 1 ) return StringUTF8FromString( '' );
     return StringUTF8Substring( str, start, count, idx );
 }
 
@@ -713,9 +713,9 @@ function StringUTF8Replace( str, fnd, rpl, idx )
         out,
         i;
 
-    if( typeof( fnd ) === 'number'    ) fnd = "" + fnd;
+    if( typeof( fnd ) === 'number'    ) fnd = '' + fnd;
     if( typeof( fnd ) === 'string'    ) fnd = StringUTF8FromString( fnd );
-    if( typeof( rpl ) === 'number'    ) rpl = "" + rpl;
+    if( typeof( rpl ) === 'number'    ) rpl = '' + rpl;
     if( typeof( rpl ) === 'string'    ) rpl = StringUTF8FromString( rpl );
     if( typeof( idx ) === 'undefined' ) idx = StringUTF8GetCharactersIndex( str );
     if( fnd.length === 0 || str.length === 0 ) return StringUTF8Copy( str );
@@ -1013,7 +1013,7 @@ function StringUTF8ToUppercase( str )
 
         if( csize === 0 )
         {
-            return ""; // EXCEPTION
+            return ''; // EXCEPTION
         }
 
         cvalue = 0;
@@ -1263,7 +1263,7 @@ function StringUTF8ToLowercase( str )
 
         if( csize === 0 )
         {
-            return ""; // EXCEPTION
+            return ''; // EXCEPTION
         }
 
         cvalue = 0;
