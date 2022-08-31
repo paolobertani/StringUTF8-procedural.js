@@ -71,6 +71,16 @@ Returns a copy of the passed UTF-8 string.
 
 &nbsp;
 
+**StringUTF8Compare**
+
+`result = StringUTF8Compare( utf8_1, utf8_2 )`
+
+Returns `true` if the passed UTF-8 strings are equal, `false` otherwise.
+
+## &nbsp;
+
+&nbsp;
+
 **StringUTF8ToHexString**
 
 `hex = StringUTF8ToHexString( utf8 )`
@@ -192,6 +202,36 @@ The function conforms to the convention used by PHP's `substr()`: `first` can be
 `chr_idx = StringUTF8GetIndexOfSubstring( utf8, substr, index )`
 
 Returns the character-index (position) of the passed substring `substr`; `-1` is returned if the substring is not found. `substr` can be a UTF-8 string, a string or a number: the function converts it to UTF-8 internally.
+
+## &nbsp;
+
+&nbsp;
+
+**StringUTF8Replace**
+
+`utf8_rep = StringUTF8Replace( utf8, find, replace )`
+
+`utf8_rep = StringUTF8Replace( utf8, find, replace, index )`
+
+Returns the UTF-8 string obtained replacing `find` with `replace`.
+
+`find` and `replace` can be UTF-8 strings, strings or number. If passed as string or number they get converted to UTF-8.
+
+## &nbsp;
+
+&nbsp;
+
+**StringUTF8Trim**
+
+`utf8_trimmed = StringUTF8Trim( utf8 )`
+
+`utf8_trimmed = StringUTF8Trim( utf8, trim )`
+
+`utf8_trimmed = StringUTF8Trim( utf8, trim, index )`
+
+Returns the UTF-8 string obtained removing tabs `\t`, newlines `\n`, carriage returns `\r` and spaces from the beginning and the end of the string.
+
+`trim` con be optionally specified (as string or UTF-8 string) to specify the single characters to trim (default: "\n\r\t ").
 
 ## &nbsp;
 
