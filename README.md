@@ -37,13 +37,13 @@ Returns a UTF-8 encoded string corresponding to the JavaScript string passed.
 
 **Note:**
 
-The UTF-8 string is returned in the form of an **array of integers** where each item of the array represents a single byte of the string.
+The UTF-8 string is returned in the form of an **array of integers** where each item represents a single byte of the string.
 
 The functions below never alter UTF-8 string(s) passed as parameter(s); When a UTF-8 string is the return value it is always a new array (never a reference to a existing one).
 
 As UTF-8 strings are arrays they cannot be concatenated using the plus `+` operator, use `StringUTF8Concat` instead (below).
 
-For the same reason they cannot by copied with an assignment `utf8_2 = utf8` that will result in creating a **reference** to the original string/array. To make a copy use `StringUTF8Copy` (below).
+For the same reason they cannot be copied with an assignment `utf8_2 = utf8` that would result in creating a **reference** to the original UTF-8-string/array. To make a copy use `StringUTF8Copy` (below).
 
 
 
@@ -55,7 +55,7 @@ For the same reason they cannot by copied with an assignment `utf8_2 = utf8` tha
 
 `str = StringUTF8ToString( utf8 )`
 
-Takes a UTF-8 string and converts it back to a JavaScript string.
+Returns a native JavaScript (UCS2 encoded) string given the UTF-8 string passed.
 
 ## &nbsp;
 
@@ -85,7 +85,9 @@ Returns `true` if the passed UTF-8 strings are equal, `false` otherwise.
 
 `hex = StringUTF8ToHexString( utf8 )`
 
-Return a string of hex values (2 characters per value) representing the bytes of the passed UTF-8 string:
+`hex = StringUTF8ToHexString( utf8, prefix )`
+
+Returns a string of hex values (2 characters per value) representing the bytes of the passed UTF-8 string:
 
 Example:
 
@@ -101,10 +103,6 @@ gives
 `"c2a9"`
 
 Optionally a string can be passed as second argument to specify a prefix to be applied at each value:
-
-`hex = StringUTF8ToHexString( utf8, prefix )`
-
-Example:
 
 ```js
 
@@ -125,7 +123,7 @@ gives
 
 `index = StringUTF8GetCharactersIndex( utf8 )`
 
-Returns an array with the indexes of the first byte of every character in the UTF-8 string passed.
+Returns an array with the array index of the first byte of every character in the UTF-8 string passed.
 
 **Note:**
 
@@ -145,7 +143,9 @@ If the same UTF-8 string is used multiple times you may consider to build its in
 
 `len = StringUTF8GetLength( ut8, index )`
 
-To get the number of bytes (instead of characters) simply evaluate the length of `utf8` array: `size = utf8.length`
+Returns the **characters** count of the passed UTF-8 string.
+
+To get the number of **bytes** (instead of characters) simply evaluate the length of `utf8` array: `size = utf8.length`
 
 Characters count matches bytes count on strings composed solely by ASCII characters.
 
@@ -215,7 +215,7 @@ Returns the character-index (position) of the passed substring `substr`; `-1` is
 
 Returns the UTF-8 string obtained replacing `find` with `replace`.
 
-`find` and `replace` can be UTF-8 strings, strings or number. If passed as string or number they get converted to UTF-8.
+`find` and `replace` can be UTF-8 strings, strings or numbers. If passed as string or number they get converted to UTF-8.
 
 ## &nbsp;
 
