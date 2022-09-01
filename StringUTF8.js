@@ -749,6 +749,7 @@ function StringUTF8Replace( str, fnd, rpl, idx )
 
 function StringUTF8Compare( str1, str2 )
 {
+    var i,n;
     if( str1.length !== str2.length ) return false;
     n = str1.length;
     for( i = 0; i < n; i++ )
