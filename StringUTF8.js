@@ -547,7 +547,7 @@ function StringUTF8Substring( str, first, count, idx )
     }
     else
     {
-        last = count > 0 ? ( first + count - 1 ) : ( len + count - 1 );
+        last = count >= 0 ? ( first + count - 1 ) : ( len + count - 1 );
     }
 
     if( last < first ) return [];
