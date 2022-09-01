@@ -199,9 +199,13 @@ The function conforms to the convention used by PHP's `substr()`: `first` can be
 
 `chr_idx = StringUTF8GetIndexOfSubstring( utf8, substr )`
 
-`chr_idx = StringUTF8GetIndexOfSubstring( utf8, substr, index )`
+`chr_idx = StringUTF8GetIndexOfSubstring( utf8, substr, offset )`
+
+`chr_idx = StringUTF8GetIndexOfSubstring( utf8, substr, offset, index )`
 
 Returns the character-index (position) of the passed substring `substr`; `-1` is returned if the substring is not found. `substr` can be a UTF-8 string, a string or a number: the function converts it to UTF-8 internally.
+
+Optionally `offset` can be passed to begin the search from the specified character index.
 
 ## &nbsp;
 

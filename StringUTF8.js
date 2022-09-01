@@ -571,7 +571,7 @@ function StringUTF8Substring( str, first, count, idx )
 // Get index of UTF-8/UCS2 substring in UTF8 string; return -1 if substring is not found
 //
 
-function StringUTF8GetIndexOfSubstring( str, sub, idx )
+function StringUTF8GetIndexOfSubstring( str, sub, offset, idx )
 {
     var i,
         j,
@@ -580,21 +580,28 @@ function StringUTF8GetIndexOfSubstring( str, sub, idx )
         subsize,
         idxlen;
 
+    if( typeof( idx ) === 'undefined' ) idx = StringUTF8GetCharactersIndex( str );
+
     if( typeof( sub ) === 'number' ) sub = '' + sub;
 
     if( typeof( sub ) === 'string' ) sub = StringUTF8FromString( sub );
 
+    if( typeof( offset ) === 'undefined' ) offset = 0;
+
     strsize = str.length;
     subsize = sub.length;
 
-    if( strsize === 0 || subsize === 0 || subsize > strsize )
+    offset = idx[ offset ];
+
+    if( strsize === 0 || subsize === 0 || subsize > strsize || offset >= strsize )
     {
         return -1;
     }
 
     strsize -= subsize;
 
-    for( i = 0; i < strsize; i++ )
+    found = false;
+    for( i = offset; i < strsize; i++ )
     {
         found = true;
         for( j = 0; j < subsize; j++ )
@@ -616,8 +623,6 @@ function StringUTF8GetIndexOfSubstring( str, sub, idx )
     {
         return -1;
     }
-
-    if( typeof( idx ) === 'undefined' ) idx = StringUTF8GetCharactersIndex( str );
 
     idxlen = idx.length;
 
@@ -767,7 +772,7 @@ function StringUTF8Compare( str1, str2 )
 
 function StringUTF8Concat( /* str1, str2, str3... */ )
 {
-    var i,n,out,u8;
+    var i,n,j,m,out,u8;
 
     n = arguments.length;
 
@@ -783,7 +788,11 @@ function StringUTF8Concat( /* str1, str2, str3... */ )
             u8 = StringUTF8FromString( u8 );
         }
 
-        out.push.apply( out, u8 );
+        m = u8.length;
+        for( j = 0; j < m; j++ )
+        {
+            out.push( u8[ j ] );
+        }
     }
 
     return out;
