@@ -127,7 +127,7 @@ Returns an array with the array index of the first byte of every character in th
 
 **Note:**
 
-Most of the functions that operate on UTF-8 strings require need to know the byte-index of every character (in other words they need the array returned by `StringUTF8GetCharactersIndex`)
+Most of the functions that operate on UTF-8 strings need the byte-index of every character (in other words they need the array returned by `StringUTF8GetCharactersIndex`)
 
 Those functions accept as optional parameter the **UTF-8 string index** avoiding the need of building it.
 
