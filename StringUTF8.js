@@ -1305,3 +1305,166 @@ function StringUTF8ToLowercase( str )
 
     return out;
 }
+
+
+
+/*
+
+Most of the code below is adapted or taken from base64ArrayBuffer.js by Jon Leighton: https://gist.github.com/jonleighton/958841
+
+MIT LICENSE
+Copyright 2011 Jon Leighton
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+
+
+//
+// Returns the Base64 encoded string representing the passed UTF-8 string
+//
+
+function StringUTF8ToBase64( utf8 )
+{
+    var base64,
+        encodings,
+        byteLength,
+        byteRemainder,
+        mainLength,
+        a,
+        b,
+        c,
+        d,
+        i,
+        chunk;
+
+    base64    = '';
+    encodings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+    byteLength    = utf8.length;
+    byteRemainder = byteLength % 3;
+    mainLength    = byteLength - byteRemainder;
+
+    for( i = 0; i < mainLength; i = i + 3 )
+    {
+        chunk = ( utf8[ i ] << 16 ) | ( utf8[ i + 1 ] << 8 ) | utf8[ i + 2 ];
+
+        a = ( chunk & 16515072 ) >> 18;
+        b = ( chunk & 258048 )   >> 12;
+        c = ( chunk & 4032 )     >>  6;
+        d = chunk & 63;
+
+        base64 += encodings[ a ] + encodings[ b ] + encodings[ c ] + encodings[ d ];
+    }
+
+    if( byteRemainder === 1 )
+    {
+        chunk = utf8[ mainLength ];
+
+        a = ( chunk & 252 ) >> 2;
+        b = ( chunk & 3 )   << 4;
+
+        base64 += encodings[ a ] + encodings[ b ] + '===';
+    }
+    else if( byteRemainder === 2 )
+    {
+        chunk = ( utf8[ mainLength ] << 8 ) | utf8[ mainLength + 1 ];
+
+        a = ( chunk & 64512 ) >> 10;
+        b = ( chunk & 1008 )  >>  4;
+        c = ( chunk & 15 )    <<  2;
+
+        base64 += encodings[ a ] + encodings[ b ] + encodings[ c ] + '=';
+    }
+
+    return base64;
+}
+
+/*
+
+Most of the code below is adapted or taken from base64-binary.js by Daniel Guerrero: https://github.com/danguer/blog-examples/blob/master/js/base64-binary.js
+
+Copyright (c) 2011, Daniel Guerrero
+All rights reserved.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL DANIEL GUERRERO BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+
+
+//
+// Returns a UTF-8 encoded string representing the Base64 string passed
+//
+
+function StringUTF8FromBase64( b64 )
+{
+    var keyStr,
+        bytes,
+    	utf8,
+    	chr1,
+        chr2,
+        chr3,
+    	enc1,
+        enc2,
+        enc3,
+        enc4,
+    	i,
+    	j;
+
+    keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+    for( i = 0; i < 2; i++ )
+    {
+        if( keyStr.indexOf( b64.charAt( b64.length - 1 ) ) === 64  )
+        {
+            b64 = b64.substring( 0, b64.length - 1 );
+        }
+    }
+
+	bytes = parseInt( ( b64.length / 4 ) * 3, 10 );
+
+    j = 0;
+
+    utf8 = [];
+
+	for( i = 0; i < bytes; i += 3 )
+    {
+		enc1 = keyStr.indexOf( b64.charAt( j++ ) );
+		enc2 = keyStr.indexOf( b64.charAt( j++ ) );
+		enc3 = keyStr.indexOf( b64.charAt( j++ ) );
+		enc4 = keyStr.indexOf( b64.charAt( j++ ) );
+
+        if( enc1 === -1 || enc2 === -1 || enc3 === -1 || enc4 === -1 )
+        {
+            return []; // EXCEPTION
+        }
+
+		chr1 = ( enc1 << 2 ) | ( enc2 >> 4 );
+		chr2 = ( ( enc2 & 15 ) << 4 ) | ( enc3 >> 2 );
+		chr3 = ( ( enc3 & 3 ) << 6 ) | enc4;
+
+		utf8[ i ] = chr1;
+		if ( enc3 != 64 ) utf8[ i + 1 ] = chr2;
+		if ( enc4 != 64 ) utf8[ i + 2 ] = chr3;
+	}
+
+	return utf8;
+}
+
+

@@ -119,6 +119,26 @@ gives
 
 &nbsp;
 
+**StringUTF8ToBase64**
+
+`b64 = StringUTF8ToBase64( utf8 )`
+
+Returns the passed UTF-8 string as a Base64 encoded string.
+
+## &nbsp;
+
+&nbsp;
+
+**StringUTF8FromBase64**
+
+`utf8 = StringUTF8ToBase64( b64 )`
+
+Returns the passed Base64 encoded string as a UTF-8 encoded string.
+
+## &nbsp;
+
+&nbsp;
+
 **StringUTF8GetCharactersIndex**
 
 `index = StringUTF8GetCharactersIndex( utf8 )`
