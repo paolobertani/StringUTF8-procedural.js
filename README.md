@@ -255,7 +255,9 @@ Returns the UTF-8 string obtained replacing `find` with `replace`.
 
 Returns the UTF-8 string obtained removing tabs `\t`, newlines `\n`, carriage returns `\r` and spaces from the beginning and the end of the string.
 
-`trim` con be optionally specified (as string or UTF-8 string) to specify the single characters to trim (default: "\n\r\t ").
+`trim` con be optionally specified (as string or UTF-8 string) to specify the single characters to trim;
+
+(default: `"\n\r\t "`).
 
 ## &nbsp;
 
